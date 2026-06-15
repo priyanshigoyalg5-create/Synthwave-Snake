@@ -1,0 +1,312 @@
+:root {
+    --bg-color: #0d0121;
+    --canvas-bg: #11023a;
+    --neon-green: #3fff1f;
+    --neon-pink: #ff1f8f;
+    --neon-blue: #00d9ff;
+    --text-primary: #fff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: 'Orbitron', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Master container split into Sidebar and Main Game */
+.dashboard-wrapper {
+    display: grid;
+    grid-template-columns: 280px 1fr; /* Left side 280px, right side fills rest */
+    gap: 30px;
+    max-width: 800px;
+    width: 100%;
+}
+
+/* LEFT SIDEBAR: Leaderboard Styling */
+.leaderboard-sidebar {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(0, 217, 255, 0.2);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 0 20px rgba(0, 217, 255, 0.05);
+}
+
+.leaderboard-sidebar h2 {
+    font-size: 1.2rem;
+    letter-spacing: 0.2em;
+    color: var(--neon-blue);
+    text-shadow: 0 0 10px rgba(0, 217, 255, 0.3);
+    border-bottom: 2px solid var(--neon-blue);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#leaderboard-list {
+    list-style: none;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 11px;
+    line-height: 2.2;
+}
+
+/* Each score row layout */
+.leaderboard-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.leaderboard-item:last-child {
+    border-bottom: none;
+}
+
+.leaderboard-name {
+    color: var(--text-primary);
+}
+
+.leaderboard-score {
+    color: var(--neon-pink);
+    text-shadow: 0 0 5px var(--neon-pink);
+}
+
+/* RIGHT SIDE: Game Container Styling */
+.game-outer-wrapper {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    letter-spacing: 0.3em;
+    font-weight: 700;
+    background: linear-gradient(180deg, var(--text-primary), var(--neon-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+#score-board {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 12px;
+    color: var(--neon-blue);
+    margin-top: 5px;
+}
+
+#score {
+    color: var(--neon-green);
+    text-shadow: 0 0 15px var(--neon-green);
+}
+
+.canvas-container {
+    position: relative;
+}
+
+canvas {
+    background-color: var(--canvas-bg);
+    border-radius: 12px;
+    border: 2px solid var(--neon-blue);
+    box-shadow: 0 0 30px rgba(0, 217, 255, 0.15);
+}
+
+/* Center group for input + button inside the curtain overlay */
+#game-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(13, 1, 33, 0.93);
+    backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    z-index: 10;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 75%;
+}
+
+/* Beautiful custom input bar */
+#player-name {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid var(--neon-blue);
+    border-radius: 5px;
+    padding: 12px;
+    color: #fff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1rem;
+    text-align: center;
+    letter-spacing: 0.1em;
+    transition: all 0.3s ease;
+}
+
+#player-name:focus {
+    box-shadow: 0 0 15px rgba(0, 217, 255, 0.4);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+#start-button {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    background: transparent;
+    border: 2px solid var(--neon-pink);
+    color: var(--neon-pink);
+    padding: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(255, 31, 143, 0.2);
+}
+
+#start-button:hover {
+    background-color: var(--neon-pink);
+    color: #000;
+    box-shadow: 0 0 25px var(--neon-pink);
+}
+
+footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+/* Make sure the text elements don't smash into the delete button */
+.leaderboard-name {
+    color: var(--text-primary);
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.leaderboard-score {
+    color: var(--neon-pink);
+    text-shadow: 0 0 5px var(--neon-pink);
+    margin-right: 15px;
+}
+
+/* The styling for our 'X' remove button */
+.remove-score-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.3);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0 4px;
+}
+
+.remove-score-btn:hover {
+    color: var(--neon-pink);
+    text-shadow: 0 0 8px var(--neon-pink);
+    transform: scale(1.2);
+}/* --- CYBERPUNK ARCADE BACKGROUND --- */
+.arcade-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; 
+    overflow: hidden;
+    perspective: 300px; /* Tilts the canvas flat into 3D space */
+}
+
+.cyber-grid {
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    top: -50%;
+    left: -50%;
+    background-image: 
+        linear-gradient(rgba(0, 217, 255, 0.1) 2px, transparent 2px),
+        linear-gradient(90deg, rgba(0, 217, 255, 0.1) 2px, transparent 2px);
+    background-size: 50px 50px;
+    background-position: center center;
+    transform: rotateX(75deg); /* Flattens the grid toward the horizon */
+    animation: gridScroll 8s linear infinite; /* Keeps lines moving */
+}
+
+.horizon-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40%;
+    background: linear-gradient(to bottom, #ff1f8f22, #0d012100);
+    filter: blur(40px);
+}
+
+@keyframes gridScroll {
+    0% { transform: rotateX(75deg) translateY(0); }
+    100% { transform: rotateX(75deg) translateY(50px); }
+}
+
+/* --- UNDO TOAST NOTIFICATION --- */
+#undo-toast {
+    position: fixed;
+    bottom: -100px; /* Starts hidden below the browser edge */
+    left: 50%;
+    transform: translateX(-50%);
+    background: #12023a;
+    border: 2px solid var(--neon-pink);
+    border-radius: 8px;
+    padding: 15px 30px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 0 30px rgba(255, 31, 143, 0.4);
+    z-index: 100;
+    transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Snappy pop-up bounce */
+}
+
+/* JavaScript toggles this class to slide it up */
+#undo-toast.toast-visible {
+    bottom: 30px;
+}
+
+#undo-button {
+    background: var(--neon-pink);
+    border: none;
+    color: #000;
+    padding: 6px 14px;
+    font-weight: bold;
+    font-family: 'Orbitron', sans-serif;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#undo-button:hover {
+    box-shadow: 0 0 10px var(--neon-pink);
+    transform: scale(1.05);
+}
