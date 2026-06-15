@@ -3,6 +3,8 @@ const ctx = canvas.getContext("2d");
 
 const gridSize = 20; 
 
+let lives = 2;
+const livesBoard = document.getElementById("lives-board");
 let snake;
 let dx;
 let dy;
