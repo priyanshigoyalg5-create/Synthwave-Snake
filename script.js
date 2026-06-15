@@ -45,10 +45,11 @@ function resetGame() {
     dx = gridSize;
     dy = 0;
     score = 0;
+    lives = 2; // FIXED: Give them 2 lives back
     document.getElementById('score').innerHTML = score;
+    updateLivesDisplay(); // Update the visual hearts instantly
     createFood();
 }
-
 function startGame() {
     let typedName = nameInput.value.trim().toUpperCase();
 
@@ -79,14 +80,31 @@ function startGame() {
 
 function main() {
     if (hasGameEnded()) {
-        clearInterval(gameInterval);
-        
-        // NEW CODE: Save our current game data before restarting
-        saveCurrentScore(currentPilotName, score);
-        
-        alert(`Snake CRASH! \n\nFINAL SCORE: ${score}`);
-        gameOverlay.style.display = "flex";
-        return;
+        lives--; // Deduct a life because a crash happened
+        updateLivesDisplay(); // Visual update right away
+
+        if (lives > 0) {
+            // --- SECOND CHANCE ACTIVATED ---
+            // Respawn snake back at safe coordinates
+            snake = [
+                {x: 160, y: 200},
+                {x: 140, y: 200},
+                {x: 120, y: 200}
+            ];
+            dx = gridSize;
+            dy = 0;
+            
+            // Reposition food so it doesn't get stuck under the new snake
+            createFood();
+            return; // Exit out of this frame check so the game keeps moving!
+        } else {
+            // --- NO LIVES REMAINING: PERMANENT GAME OVER ---
+            clearInterval(gameInterval);
+            saveCurrentScore(currentPilotName, score);
+            alert(`Snake CRASH! \n\nFINAL SCORE: ${score}`);
+            gameOverlay.style.display = "flex";
+            return;
+        }
     }
 
     clearCanvas();
@@ -276,4 +294,12 @@ function hasGameEnded() {
     const hitToptWall = snake[0].y < 0;
     const hitBottomWall = snake[0].y >= canvas.height;
     return hitLeftWall || hitRightWall || hitToptWall || hitBottomWall;
+}
+// Add this function anywhere in your script.js file
+function updateLivesDisplay() {
+    let heartString = "";
+    for (let i = 0; i < lives; i++) {
+        heartString += "❤️ ";
+    }
+    livesBoard.innerHTML = heartString;
 }
